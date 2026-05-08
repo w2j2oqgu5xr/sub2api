@@ -44,12 +44,13 @@ func main() {
 	addr := fmt.Sprintf("%s:%d", *host, *port)
 	log.Printf("[%s] Starting server on %s (v%s)", appName, addr, appVersion)
 
+	// Increased read/write timeouts to better handle slow subscription sources
 	server := &http.Server{
 		Addr:         addr,
 		Handler:      mux,
-		ReadTimeout:  30 * time.Second,
-		WriteTimeout: 30 * time.Second,
-		IdleTimeout:  60 * time.Second,
+		ReadTimeout:  60 * time.Second,
+		WriteTimeout: 60 * time.Second,
+		IdleTimeout:  120 * time.Second,
 	}
 
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
