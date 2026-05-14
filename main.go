@@ -47,11 +47,13 @@ func main() {
 	// Increased read/write timeouts to better handle slow subscription sources.
 	// Bumped IdleTimeout to 180s to keep persistent connections alive longer
 	// on my home server where clients reconnect frequently.
+	// Increased WriteTimeout to 90s since some subscription URLs are very slow
+	// to respond and were getting cut off at 60s.
 	server := &http.Server{
 		Addr:         addr,
 		Handler:      mux,
 		ReadTimeout:  60 * time.Second,
-		WriteTimeout: 60 * time.Second,
+		WriteTimeout: 90 * time.Second,
 		IdleTimeout:  180 * time.Second,
 	}
 
